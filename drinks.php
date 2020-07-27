@@ -4,7 +4,7 @@
     if(mysqli_connect_errno()){
         echo "Failed to connect to MySQL:".mysqli_connect_error(); die();}
     else {
-        echo "connected to databaseee";
+        echo "connected to database";
     }
 
     if(isset($_GET['drink'])){
@@ -71,6 +71,60 @@
 
         <input type='submit' name='drinks_button' value='Show me the drink information'>
     </form>
+
+    <h2> Search a Drink</h2>
+
+    <form action="" method="post">
+        <input type="text" name='search'>
+        <input type="submit" name="submit" value="Search">
+    </form>
+
+
+
+    <?php
+
+    if(isset($_POST['search'])) {
+        $search = $_POST['search'];
+
+        $query1 = "SELECT * FROM drinks WHERE Item LIKE '%$search%'";
+        $query = mysqli_query($con, $query1);
+        $count = mysqli_num_rows($query);
+
+        if($count == 0){
+            echo "There was no search results!";
+
+        }else{
+
+            while ($row = mysqli_fetch_array($query)) {
+
+                echo $row ['Item'];
+                echo "<br>";
+            }
+        }
+    }
+    ?>
+
+    <?php
+    /*
+    $search_value=$_POST['search'];
+
+    $search_drinks="SELECT * FROM drinks WHERE Item LIKE '%$search_value%'";
+
+
+
+    $res=mysqli_query($con, $search_drinks);
+    if(mysqli_num_rows ($res)  > 0) {
+        while ($row = mysqli_fetch_array($res)) {
+            echo 'Drink:  ' . $row["Item"];
+            echo "<br>";
+        }
+    }
+    else{
+        echo "No Results";
+    }
+    */
+    ?>
+
 </main>
 </body>
 </html>
